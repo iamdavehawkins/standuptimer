@@ -10,10 +10,10 @@ export class Timer extends React.Component {
     super(props);
     this.state = {
       // make sure number is zero padded
-      initialMinutes: this.pad(props.minutes, 2),
-      initialSeconds: this.pad(props.seconds, 2),
-      minutes: this.pad(props.minutes, 2),
-      seconds: this.pad(props.seconds, 2),
+      initialMinutes: this.pad(props.minutes, 0, 2),
+      initialSeconds: this.pad(props.seconds, 0, 2),
+      minutes: this.pad(props.minutes, 0, 2),
+      seconds: this.pad(props.seconds, 0, 2),
       expired: false
     };
 
@@ -108,7 +108,7 @@ export class Timer extends React.Component {
 
   tick() {
     // cross over a minute when not expired
-    if (this.state.seconds === '00' && this.state.expired === false ) {
+    if (this.state.seconds === '00' && this.state.expired === false && this.state.minutes !== '00') {
       this.setState({
         seconds: this.pad(59, 0, 2),
         minutes: this.pad(this.state.minutes, -1, 2)
@@ -116,9 +116,9 @@ export class Timer extends React.Component {
     // cross over the expiration time 00:00
     } else if (this.state.seconds === '00' && this.state.minutes === '00') {
       this.setState({
-        seconds: this.pad(1, 0, 2),
-        minutes: '00',
-        expired: true
+        expired: true,
+        seconds: this.pad('01', 0, 2),
+        minutes: this.pad('00', 0, 2)
       })
     // cross over a minute when expired
     } else if (this.state.expired && this.state.seconds === '59') {
