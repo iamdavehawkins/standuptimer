@@ -14,7 +14,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <Timer minutes='0' seconds='3'/>
+        <Timer minutes='1' seconds='3'/>
       </div>
     );
   }
