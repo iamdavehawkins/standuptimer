@@ -74,7 +74,9 @@ export class Timer extends React.Component {
 
   decrementSeconds(e) {
     this.stopAndReset();
-    if ( this.state.initialSeconds !== '00' ) {
+    if ( this.state.initialSeconds === '00' && this.state.initialMinutes === '00' ) {
+      return
+    } else if ( this.state.initialSeconds !== '00' ) {
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, -1, 2),
         seconds: this.pad(this.state.seconds, -1, 2)
@@ -91,12 +93,16 @@ export class Timer extends React.Component {
 
   decrementTenSeconds(e) {
     this.stopAndReset();
-    if ( this.state.initialSeconds[0] !== '0' ) {
+    if ( this.state.initialSeconds[0] === '0' && this.state.initialMinutes === '00' ) {
+      return
+    } else if ( this.state.initialSeconds[0] !== '0' ) {
+      // decrement ten seconds
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, -10, 2),
         seconds: this.pad(this.state.seconds, -10, 2)
       })
     } else {
+      // decrement ten seconds over a minute boundary
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, 50, 2),
         seconds: this.pad(this.state.seconds, 50, 2),
