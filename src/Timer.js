@@ -1,10 +1,6 @@
 import React from 'react';
 import SetTimerButton from './SetTimerButton.js';
 
-const timerStyle = {
-  outlineWidth: 0
-}
-
 export class Timer extends React.Component {
   constructor(props) {
     super(props);
@@ -14,13 +10,15 @@ export class Timer extends React.Component {
       initialSeconds: this.pad(props.seconds, 0, 2),
       minutes: this.pad(props.minutes, 0, 2),
       seconds: this.pad(props.seconds, 0, 2),
-      expired: false
+      expired: false,
+      status: 2
     };
 
     this.incrementSeconds = this.incrementSeconds.bind(this);
     this.incrementTenSeconds = this.incrementTenSeconds.bind(this);
     this.decrementSeconds = this.decrementSeconds.bind(this);
     this.decrementTenSeconds = this.decrementTenSeconds.bind(this);
+    this.startCoffeeBreak = this.startCoffeeBreak.bind(this);
   }
 
   pad(num, delta, size) {
@@ -34,8 +32,19 @@ export class Timer extends React.Component {
     this.setState({
       // minutes: this.pad(parseFloat(this.state.initialMinutes), 2),
       // seconds: this.pad(parseFloat(this.state.initialSeconds), 2),
-      expired: false
+      expired: false,
+      status: 2
     })
+  }
+
+  startCoffeeBreak(e) {
+    this.stopAndReset();
+    this.setState({
+      minutes: '10',
+      seconds: '00',
+      status: 3
+    })
+    this.startTick();
   }
 
   incrementSeconds(e) {
@@ -43,7 +52,8 @@ export class Timer extends React.Component {
     if ( this.state.initialSeconds !== '59' ) {
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, 1, 2),
-        seconds: this.pad(this.state.seconds, 1, 2)
+        seconds: this.pad(this.state.initialSeconds, 1, 2),
+        minutes: this.state.initialMinutes
       })
     } else {
       this.setState({
@@ -60,7 +70,8 @@ export class Timer extends React.Component {
     if ( this.state.initialSeconds[0] !== '5' ) {
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, 10, 2),
-        seconds: this.pad(this.state.seconds, 10, 2)
+        seconds: this.pad(this.state.initialSeconds, 10, 2),
+        minutes: this.state.initialMinutes
       })
     } else {
       this.setState({
@@ -79,7 +90,8 @@ export class Timer extends React.Component {
     } else if ( this.state.initialSeconds !== '00' ) {
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, -1, 2),
-        seconds: this.pad(this.state.seconds, -1, 2)
+        seconds: this.pad(this.state.initialSeconds, -1, 2),
+        minutes: this.state.initialMinutes
       })
     } else {
       this.setState({
@@ -99,7 +111,8 @@ export class Timer extends React.Component {
       // decrement ten seconds
       this.setState({
         initialSeconds: this.pad(this.state.initialSeconds, -10, 2),
-        seconds: this.pad(this.state.seconds, -10, 2)
+        seconds: this.pad(this.state.initialSeconds, -10, 2),
+        minutes: this.state.initialMinutes
       })
     } else {
       // decrement ten seconds over a minute boundary
@@ -143,6 +156,24 @@ export class Timer extends React.Component {
         seconds: this.pad(this.state.seconds, -1, 2)
       });
     }
+
+    // set status based on tick
+    if ( parseFloat(this.state.seconds) <= 5 && this.state.minutes === '00' ) {
+      this.setState({
+        status: 0
+      })
+    } else if ( parseFloat(this.state.seconds) <= 15 && this.state.minutes === '00' ) {
+      this.setState({
+        status: 1
+      })
+    }
+  }
+
+  startTick(e) {
+    // start the tick
+    var intervalId = setInterval(this.tick.bind(this), 1000);
+    // set the new intervalId
+    this.setState({ intervalId: intervalId });
   }
 
   startTimer(e) {
@@ -152,21 +183,31 @@ export class Timer extends React.Component {
       // un-expire and reset the timer
       this.setState({
         expired: false,
+        status: 2,
         minutes: this.state.initialMinutes,
         seconds: this.state.initialSeconds
       });
-      // start the tick
-      var intervalId = setInterval(this.tick.bind(this), 1000);
-      // set the new intervalId
-      this.setState({ intervalId: intervalId });
+      this.startTick();
     }
+  }
+
+  getStyle() {
+    return Object.assign({
+      backgroundColor: this.state.status === 2 ? 'green' : this.state.status === 1 ? 'yellow' : this.state.status === 3 ? 'brown' : 'red',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      outlineWidth: 0,
+      height: '100px',
+    })
   }
 
   render() {
     return (
-      <div style={ timerStyle } tabIndex="0" onKeyDown={ this.startTimer.bind(this) }>
+      <div style={ this.getStyle() } tabIndex="0" onKeyDown={ this.startTimer.bind(this) }>
+        <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
         {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
-        <SetTimerButton handler={ this.incrementSeconds.bind(this) }> + </SetTimerButton>
+        <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
         <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
         <SetTimerButton handler={ this.incrementTenSeconds }> +10 </SetTimerButton>
         <SetTimerButton handler={ this.decrementTenSeconds }> -10 </SetTimerButton>
