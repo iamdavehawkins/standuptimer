@@ -217,22 +217,44 @@ export class Timer extends React.Component {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      outlineWidth: 0,
-      height: '100px',
+      flexDirection: 'column',
+      outlineWidth: 0
     })
   }
 
   render() {
     return (
       <div style={ this.getStyle() } tabIndex="0" onKeyDown={ this.startTimer.bind(this) }>
-        <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
-        <SetTimerButton handler={ this.incrementMinutes }> +m </SetTimerButton>
-        <SetTimerButton handler={ this.decrementMinutes }> -m </SetTimerButton>
-        {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
-        <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
-        <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
-        <SetTimerButton handler={ this.incrementTenSeconds }> +10 </SetTimerButton>
-        <SetTimerButton handler={ this.decrementTenSeconds }> -10 </SetTimerButton>
+        <div id="timerValues">
+          {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
+        </div>
+        <div id="timeAdjusterButtons">
+          {/* <div class="adjusterPair">
+            <span />
+          </div> */}
+          <div id="minuteButtons">
+            <div class="adjusterPair">
+              <SetTimerButton handler={ this.decrementMinutes }> -m </SetTimerButton>
+              <SetTimerButton handler={ this.incrementMinutes }> +m </SetTimerButton>
+            </div>
+          </div>
+          {/* <div class="adjusterPair">
+            <span />
+          </div> */}
+          <div id="secondButtons">
+            <div class="adjusterPair">
+              <SetTimerButton handler={ this.decrementTenSeconds }> -10 </SetTimerButton>
+              <SetTimerButton handler={ this.incrementTenSeconds }> +10 </SetTimerButton>
+            </div>
+            <div class="adjusterPair">
+              <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
+              <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
+            </div>
+          </div>
+        </div>
+        <div id="miscButtons">
+          <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
+        </div>
       </div>
     );
   }

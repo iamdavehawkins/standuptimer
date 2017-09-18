@@ -1,0 +1,38 @@
+#timerValues {
+  text-align: center;
+  font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 20vw;
+  width: 50%;
+}
+
+#timeAdjusterButtons {
+  display: flex;
+  width: 50%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.adjusterPair {
+  display: flex;
+  /* width: 100%; */
+  justify-content: center;
+}
+
+#minuteButtons {
+  display: flex;
+  width: 45%;
+  justify-content: center;
+}
+
+#secondButtons {
+  display: flex;
+  width: 45%;
+  justify-content: space-around;
+}
+
+#miscButtons {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+}
