@@ -216,9 +216,10 @@ export class Timer extends React.Component {
       backgroundColor: this.state.status === 2 ? 'green' : this.state.status === 1 ? 'yellow' : this.state.status === 3 ? 'brown' : 'red',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-between',
       flexDirection: 'column',
-      outlineWidth: 0
+      outlineWidth: 0,
+      height: '100%'
     })
   }
 
@@ -233,20 +234,20 @@ export class Timer extends React.Component {
             <span />
           </div> */}
           <div id="minuteButtons">
-            <div class="adjusterPair">
-              <SetTimerButton handler={ this.decrementMinutes }> -m </SetTimerButton>
-              <SetTimerButton handler={ this.incrementMinutes }> +m </SetTimerButton>
+            <div className="adjusterPair">
+              <SetTimerButton handler={ this.decrementMinutes }> - </SetTimerButton>
+              <SetTimerButton handler={ this.incrementMinutes }> + </SetTimerButton>
             </div>
           </div>
           {/* <div class="adjusterPair">
             <span />
           </div> */}
           <div id="secondButtons">
-            <div class="adjusterPair">
-              <SetTimerButton handler={ this.decrementTenSeconds }> -10 </SetTimerButton>
-              <SetTimerButton handler={ this.incrementTenSeconds }> +10 </SetTimerButton>
+            <div className="adjusterPair">
+              <SetTimerButton handler={ this.decrementTenSeconds }> - </SetTimerButton>
+              <SetTimerButton handler={ this.incrementTenSeconds }> + </SetTimerButton>
             </div>
-            <div class="adjusterPair">
+            <div className="adjusterPair">
               <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
               <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
             </div>
