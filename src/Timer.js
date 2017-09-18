@@ -19,6 +19,8 @@ export class Timer extends React.Component {
     this.decrementSeconds = this.decrementSeconds.bind(this);
     this.decrementTenSeconds = this.decrementTenSeconds.bind(this);
     this.startCoffeeBreak = this.startCoffeeBreak.bind(this);
+    this.incrementMinutes = this.incrementMinutes.bind(this);
+    this.decrementMinutes = this.decrementMinutes.bind(this);
   }
 
   pad(num, delta, size) {
@@ -45,6 +47,24 @@ export class Timer extends React.Component {
       status: 3
     })
     this.startTick();
+  }
+
+  incrementMinutes(e) {
+    this.stopAndReset();
+    this.setState({
+      initialMinutes: this.pad(this.state.initialMinutes, 1, 2),
+      minutes: this.pad(this.state.initialMinutes, 1, 2)
+    })
+  }
+
+  decrementMinutes(e) {
+    this.stopAndReset();
+    if ( this.state.initialMinutes !== '00' ) {
+      this.setState({
+        initialMinutes: this.pad(this.state.initialMinutes, -1, 2),
+        minutes: this.pad(this.state.initialMinutes, -1, 2)
+      })
+    }
   }
 
   incrementSeconds(e) {
@@ -206,6 +226,8 @@ export class Timer extends React.Component {
     return (
       <div style={ this.getStyle() } tabIndex="0" onKeyDown={ this.startTimer.bind(this) }>
         <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
+        <SetTimerButton handler={ this.incrementMinutes }> +m </SetTimerButton>
+        <SetTimerButton handler={ this.decrementMinutes }> -m </SetTimerButton>
         {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
         <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
         <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
