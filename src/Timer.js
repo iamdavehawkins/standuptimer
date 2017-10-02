@@ -1,5 +1,6 @@
 import React from 'react';
 import SetTimerButton from './SetTimerButton.js';
+import { CSSTransitionGroup } from 'react-transition-group'
 
 export class Timer extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ export class Timer extends React.Component {
       minutes: this.pad(props.minutes, 0, 2),
       seconds: this.pad(props.seconds, 0, 2),
       expired: false,
-      status: 2
+      status: 2,
+      pulse: false
     };
 
     this.incrementSeconds = this.incrementSeconds.bind(this);
@@ -182,7 +184,7 @@ export class Timer extends React.Component {
       this.setState({
         status: 0
       })
-    } else if ( parseFloat(this.state.seconds) <= 15 && this.state.minutes === '00' ) {
+    } else if ( parseFloat(this.state.seconds) <= 15 && this.state.minutes === '00' && this.state.status === 2) {
       this.setState({
         status: 1
       })
@@ -197,26 +199,35 @@ export class Timer extends React.Component {
   }
 
   startTimer(e) {
+    e.preventDefault();
     if (e.keyCode === 32) {
       // stop the previous tick
       clearInterval(this.state.intervalId);
-      // un-expire and reset the timer
+      // un-expire, reset the timer, and place flash
       this.setState({
         expired: false,
         status: 2,
         minutes: this.state.initialMinutes,
-        seconds: this.state.initialSeconds
+        seconds: this.state.initialSeconds,
+        pulse: true
       });
+
+      // quick delay before removing white flash
+      window.setTimeout(() => {
+        this.setState({
+          pulse: false
+        });
+      }, 75);
       this.startTick();
     }
   }
 
   getStyle() {
     return Object.assign({
-      backgroundColor: this.state.status === 2 ? 'green' : this.state.status === 1 ? 'yellow' : this.state.status === 3 ? 'brown' : 'red',
+      // background: 'radial-gradient(#8BC34A, #236f26, #083e0)', // this.state.status === 2 ? green : this.state.status === 1 ? 'yellow' : this.state.status === 3 ? 'brown' : 'red',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       flexDirection: 'column',
       outlineWidth: 0,
       height: '100%'
@@ -225,38 +236,50 @@ export class Timer extends React.Component {
 
   render() {
     return (
-      <div style={ this.getStyle() } tabIndex="0" onKeyDown={ this.startTimer.bind(this) }>
-        <div id="timerValues">
-          {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
-        </div>
-        <div id="timeAdjusterButtons">
-          {/* <div class="adjusterPair">
-            <span />
-          </div> */}
-          <div id="minuteButtons">
-            <div className="adjusterPair">
-              <SetTimerButton handler={ this.decrementMinutes }> - </SetTimerButton>
-              <SetTimerButton handler={ this.incrementMinutes }> + </SetTimerButton>
+        <div
+          className={this.state.status === 2 ? 'greenClass' : this.state.status === 1 ? 'yellowClass' : this.state.status === 3 ? 'brownClass' : 'redClass'}
+          style={ this.getStyle() }
+          tabIndex="0"
+          onKeyDown={ this.startTimer.bind(this) }
+          >
+            <CSSTransitionGroup
+              id="pulseBox"
+              transitionName="pulse"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}>
+              { this.state.pulse === true ? (
+                <div id="pulse"></div>
+              ) : (
+                <div></div>
+              )}
+            </CSSTransitionGroup>
+            <div id="timerValues">
+              {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
+            </div>
+            <div id="timeAdjusterButtons"
+              className={this.state.expired === true ? 'shiftedButtons' : null}
+              >
+              <div id="minuteButtons">
+                <div className="adjusterPair">
+                  <SetTimerButton handler={ this.decrementMinutes }> - </SetTimerButton>
+                  <SetTimerButton handler={ this.incrementMinutes }> + </SetTimerButton>
+                </div>
+              </div>
+              <div id="secondButtons">
+                <div className="adjusterPair">
+                  <SetTimerButton handler={ this.decrementTenSeconds }> - </SetTimerButton>
+                  <SetTimerButton handler={ this.incrementTenSeconds }> + </SetTimerButton>
+                </div>
+                <div className="adjusterPair">
+                  <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
+                  <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
+                </div>
+              </div>
+            </div>
+            <div id="miscButtons">
+              <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
             </div>
           </div>
-          {/* <div class="adjusterPair">
-            <span />
-          </div> */}
-          <div id="secondButtons">
-            <div className="adjusterPair">
-              <SetTimerButton handler={ this.decrementTenSeconds }> - </SetTimerButton>
-              <SetTimerButton handler={ this.incrementTenSeconds }> + </SetTimerButton>
-            </div>
-            <div className="adjusterPair">
-              <SetTimerButton handler={ this.decrementSeconds }> - </SetTimerButton>
-              <SetTimerButton handler={ this.incrementSeconds }> + </SetTimerButton>
-            </div>
-          </div>
-        </div>
-        <div id="miscButtons">
-          <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
-        </div>
-      </div>
     );
   }
 }

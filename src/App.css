@@ -39,8 +39,66 @@ html, body {
 }
 
 #miscButtons {
-  display: flex;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.greenClass {
+  background: #236f26; /* For browsers that do not support gradients */    
+  background: -webkit-radial-gradient(#8BC34A, #236f26, #083e05); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(#8BC34A, #236f26, #083e05); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(#8BC34A, #236f26, #083e05); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(#8BC34A, #236f26, #083e05); /* Standard syntax (must be last) */
+}
+
+.yellowClass {
+  background: #C0BD1A; /* For browsers that do not support gradients */    
+  background: -webkit-radial-gradient(#F5F399, #C2CC2F, #7E8810); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(#F5F399, #C2CC2F, #7E8810); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(#F5F399, #C2CC2F, #7E8810); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(#F5F399, #C2CC2F, #7E8810); /* Standard syntax (must be last) */
+}
+
+.redClass {
+  background: #D34B4B; /* For browsers that do not support gradients */    
+  background: -webkit-radial-gradient(#F59999, #BE2222, #680B0B); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(#F59999, #BE2222, #680B0B); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(#F59999, #BE2222, #680B0B); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(#F59999, #BE2222, #680B0B); /* Standard syntax (must be last) */
+}
+
+.brownClass {
+  background: #70380A; /* For browsers that do not support gradients */    
+  background: -webkit-radial-gradient(#A89B93, #744825, #472201); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(#A89B93, #744825, #472201); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(#A89B93, #744825, #472201); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(#A89B93, #744825, #472201); /* Standard syntax (must be last) */
+}
+
+.shiftedButtons {
+  margin-left: 13%;
+}
+
+#pulseBox {
+  position: fixed;
+  height: 100%;
   width: 100%;
-  flex-direction: row;
-  justify-content: flex-end;
+  z-index: 99;
+  pointer-events: none;
+}
+
+#pulse {
+  background: #FFF;
+  height: 100%;
+  z-index: 99;
+  transition: opacity 500ms linear;
+}
+
+.pulse-enter {
+  opacity: 1;
+}
+
+.pulse-leave {
+  opacity: 0;
 }

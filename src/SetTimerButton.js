@@ -9,7 +9,11 @@ const buttonStyle = {
   width: '5vw',
   fontSize: '5vw',
   padding: '0px',
-  outlineWidth: 0
+  outlineWidth: 0,
+  backgroundColor: 'rgb(60, 7, 117)',
+  color: '#FFF',
+  borderWidth: '1px',
+  borderColor: '#FFF'
 }
 
 const textStyle = {
