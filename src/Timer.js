@@ -173,7 +173,12 @@ export class Timer extends React.Component {
     }
 
     // set status based on tick
-    if ( parseFloat(this.state.seconds) <= 5 && this.state.minutes === '00' ) {
+    if ( this.state.expired && parseFloat(this.state.seconds) % 2 ) {
+      this.setState({
+        status: -1
+      })
+    } else if ( (parseFloat(this.state.seconds) <= 5 && this.state.minutes === '00') ||
+                (this.state.expired) ) {
       this.setState({
         status: 0
       })
@@ -210,14 +215,13 @@ export class Timer extends React.Component {
         this.setState({
           pulse: false
         });
-      }, 75);
+      }, 100);
       this.startTick();
     }
   }
 
   getStyle() {
     return Object.assign({
-      // background: 'radial-gradient(#8BC34A, #236f26, #083e0)', // this.state.status === 2 ? green : this.state.status === 1 ? 'yellow' : this.state.status === 3 ? 'brown' : 'red',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -230,7 +234,15 @@ export class Timer extends React.Component {
   render() {
     return (
         <div
-          className={this.state.status === 2 ? 'greenClass' : this.state.status === 1 ? 'yellowClass' : this.state.status === 3 ? 'brownClass' : 'redClass'}
+          className={(() => {
+            switch (this.state.status) {
+              case 2:  return "greenClass";
+              case 1:  return "yellowClass";
+              case 3:  return "brownClass";
+              case -1: return "invertedRedClass";
+              default: return "redClass";
+            }
+          })()}
           style={ this.getStyle() }
           tabIndex="0"
           onKeyDown={ this.startTimer.bind(this) }
@@ -246,7 +258,9 @@ export class Timer extends React.Component {
                 <div></div>
               )}
             </CSSTransitionGroup>
-            <div id="timerValues">
+            <div 
+              id="timerValues"
+            >
               {this.state.expired ? '-' : ''}{ this.state.minutes }:{ this.state.seconds }
             </div>
             <div id="timeAdjusterButtons"

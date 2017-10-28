@@ -68,6 +68,15 @@ html, body {
   background: radial-gradient(#F59999, #BE2222, #680B0B); /* Standard syntax (must be last) */
 }
 
+.invertedRedClass {
+  background: #D34B4B; /* For browsers that do not support gradients */    
+  background: -webkit-radial-gradient(rgb(236, 204, 204), rgb(221, 80, 80), rgb(95, 0, 0)); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(rgb(236, 204, 204), rgb(221, 80, 80), rgb(95, 0, 0)); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(rgb(236, 204, 204), rgb(221, 80, 80), rgb(95, 0, 0)); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(rgb(236, 204, 204), rgb(221, 80, 80), rgb(95, 0, 0)); /* Standard syntax (must be last) */
+  color: rgb(223, 28, 28);
+}
+
 .brownClass {
   background: #70380A; /* For browsers that do not support gradients */    
   background: -webkit-radial-gradient(#A89B93, #744825, #472201); /* Safari 5.1 to 6.0 */
