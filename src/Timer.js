@@ -16,13 +16,6 @@ export class Timer extends React.Component {
       pulse: false
     };
 
-    this.incrementSeconds = this.incrementSeconds.bind(this);
-    this.incrementTenSeconds = this.incrementTenSeconds.bind(this);
-    this.decrementSeconds = this.decrementSeconds.bind(this);
-    this.decrementTenSeconds = this.decrementTenSeconds.bind(this);
-    this.startCoffeeBreak = this.startCoffeeBreak.bind(this);
-    this.incrementMinutes = this.incrementMinutes.bind(this);
-    this.decrementMinutes = this.decrementMinutes.bind(this);
   }
 
   pad(num, delta, size) {
@@ -41,7 +34,7 @@ export class Timer extends React.Component {
     })
   }
 
-  startCoffeeBreak(e) {
+  startCoffeeBreak = (e) => {
     this.stopAndReset();
     this.setState({
       minutes: '10',
@@ -51,7 +44,7 @@ export class Timer extends React.Component {
     this.startTick();
   }
 
-  incrementMinutes(e) {
+  incrementMinutes = (e) => {
     this.stopAndReset();
     this.setState({
       initialMinutes: this.pad(this.state.initialMinutes, 1, 2),
@@ -59,7 +52,7 @@ export class Timer extends React.Component {
     })
   }
 
-  decrementMinutes(e) {
+  decrementMinutes = (e) => {
     this.stopAndReset();
     if ( this.state.initialMinutes !== '00' ) {
       this.setState({
@@ -69,7 +62,7 @@ export class Timer extends React.Component {
     }
   }
 
-  incrementSeconds(e) {
+  incrementSeconds = (e) => {
     this.stopAndReset();
     if ( this.state.initialSeconds !== '59' ) {
       this.setState({
@@ -87,7 +80,7 @@ export class Timer extends React.Component {
     }
   }
 
-  incrementTenSeconds(e) {
+  incrementTenSeconds = (e) => {
     this.stopAndReset();
     if ( this.state.initialSeconds[0] !== '5' ) {
       this.setState({
@@ -105,7 +98,7 @@ export class Timer extends React.Component {
     }
   }
 
-  decrementSeconds(e) {
+  decrementSeconds = (e) => {
     this.stopAndReset();
     if ( this.state.initialSeconds === '00' && this.state.initialMinutes === '00' ) {
       return
@@ -125,7 +118,7 @@ export class Timer extends React.Component {
     }
   }
 
-  decrementTenSeconds(e) {
+  decrementTenSeconds = (e) => {
     this.stopAndReset();
     if ( this.state.initialSeconds[0] === '0' && this.state.initialMinutes === '00' ) {
       return
