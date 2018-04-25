@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Timer from './Timer.js';
+import { Timer } from './Timer.js';
 require('./App.css');
 
 const appStyle = {
@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={ appStyle }>
-        <Timer minutes='1' seconds='15'/>
+        <Timer minutes='1' seconds='00'/>
       </div>
     );
   }

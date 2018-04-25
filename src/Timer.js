@@ -284,7 +284,7 @@ export class Timer extends React.Component {
               </div>
             </div>
             <div id="miscButtons">
-              <SetTimerButton handler={ this.startCoffeeBreak }> c </SetTimerButton>
+              <SetTimerButton handler={ this.startCoffeeBreak }> &#x2615; </SetTimerButton>
             </div>
           </div>
     );
