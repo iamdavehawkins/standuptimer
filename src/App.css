@@ -97,6 +97,12 @@ html, body {
   pointer-events: none;
 }
 
+#countUpTimer {
+  position: fixed;
+  bottom: 0;
+  font-size: 15px;
+}
+
 #pulse {
   background: #FFF;
   height: 100%;

@@ -1,6 +1,8 @@
 import React from 'react';
 import SetTimerButton from './SetTimerButton.js';
 import { CSSTransitionGroup } from 'react-transition-group'
+var moment = require("moment");
+var momentDurationFormatSetup = require("moment-duration-format");
 
 export class Timer extends React.Component {
   constructor(props) {
@@ -13,7 +15,9 @@ export class Timer extends React.Component {
       seconds: this.pad(props.seconds, 0, 2),
       expired: false,
       status: 2,
-      pulse: false
+      pulse: false,
+      countUpTimer: 1,
+      running: false
     };
 
   }
@@ -187,6 +191,8 @@ export class Timer extends React.Component {
         status: 1
       })
     }
+
+    this.setState({countUpTimer: this.state.countUpTimer + 1});
   }
 
   startTick(e) {
@@ -207,7 +213,8 @@ export class Timer extends React.Component {
         status: 2,
         minutes: this.state.initialMinutes,
         seconds: this.state.initialSeconds,
-        pulse: true
+        pulse: true,
+        running: true
       });
 
       // quick delay before removing white flash
@@ -283,8 +290,11 @@ export class Timer extends React.Component {
                 </div>
               </div>
             </div>
+            <div id="countUpTimer">
+              { this.state.running ? "Total time: " + moment.duration(this.state.countUpTimer, "seconds").format() : "Press SPACE to begin"}
+            </div>
             <div id="miscButtons">
-              <SetTimerButton handler={ this.startCoffeeBreak }> &#x2615; </SetTimerButton>
+              <SetTimerButton handler={ this.startCoffeeBreak }> <span role="img">&#x2615;</span> </SetTimerButton>
             </div>
           </div>
     );
