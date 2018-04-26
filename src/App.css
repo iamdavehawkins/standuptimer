@@ -100,7 +100,7 @@ html, body {
 #countUpTimer {
   position: fixed;
   bottom: 0;
-  font-size: 15px;
+  font-size: 25px;
 }
 
 #pulse {
