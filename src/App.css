@@ -100,7 +100,13 @@ html, body {
 #countUpTimer {
   position: fixed;
   bottom: 0;
-  font-size: 25px;
+  font-size: 3.5vw;
+}
+
+#lastTime {
+  padding: 0px 10px 20px 10px;
+  font-size: 1.8vw;
+  text-align: center;
 }
 
 #pulse {

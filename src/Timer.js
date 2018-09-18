@@ -14,7 +14,10 @@ export class Timer extends React.Component {
       status: 2,
       pulse: false,
       countUpTimer: 1,
-      running: false
+      running: false,
+      lastTime: null,
+      totalResets: -1,
+      averageTime: null
     };
 
   }
@@ -87,17 +90,23 @@ export class Timer extends React.Component {
   }
 
   startTimer(e) {
-    e.preventDefault();
+    // e.preventDefault();
     if (e.keyCode === 32) {
       // stop the previous tick
       clearInterval(this.state.intervalId);
+      const newTotal = this.state.totalResets + 1
+      const newAverage = this.state.totalResets >= 0 ? (this.state.countUpTimer-1) / newTotal : 0
+
       // un-expire, reset the timer, and place flash
       this.setState({
         expired: false,
         status: 2,
         seconds: this.state.initialSeconds,
         pulse: true,
-        running: true
+        running: true,
+        lastTime: this.state.initialSeconds - this.state.seconds,
+        totalResets: newTotal,
+        averageTime: newAverage
       });
 
       // quick delay before removing white flash
@@ -148,10 +157,13 @@ export class Timer extends React.Component {
                 <div></div>
               )}
             </CSSTransitionGroup>
-            <div 
-              id="timerValues"
-            >
+            <div id="timerValues">
               { moment.duration(this.state.seconds, "seconds").format("mm:ss", {trim: false}) }
+            </div>
+            <div id="lastTime">
+              Last Time: { moment.duration(this.state.lastTime, "seconds").format("mm:ss", {trim: false}) }<br />
+              Average Time: { moment.duration(this.state.averageTime, "seconds").format("mm:ss", {trim: false}) }<br />
+              Total Participants: { this.state.totalResets > 0 ? this.state.totalResets : 0 }
             </div>
             <div id="timeAdjusterButtons"
               className={this.state.expired === true ? 'shiftedButtons' : null}
